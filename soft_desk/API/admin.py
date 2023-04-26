@@ -3,19 +3,19 @@ from API.models import ProjetsModel, ContributorsModel, IssuesModel, CommentsMod
 
 
 class ProjetModelAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description', 'type')
+    list_display = ("id", "author_user_id", 'title', 'description', 'type')
 
 
 class ContributorModelAdmin(admin.ModelAdmin):
-    list_display = ('user_id', 'project_id', 'permission', 'role')
+    list_display = ("id", 'user_id', 'project_id', 'permission', 'role')
 
 
 class IssuesModelAdmin(admin.ModelAdmin):
-    list_display = ('title', 'tag', 'priority', 'status')
+    list_display = ("id", 'title', 'tag', 'priority', 'status')
 
 
 class CommentsModelAdmin(admin.ModelAdmin):
-    list_display = ("description", "author_user", "issue_id")
+    list_display = ("id", "description", "author_user", "issue_id")
 
 
 admin.site.register(ProjetsModel, ProjetModelAdmin)

@@ -30,7 +30,7 @@ router.register('signup', CreateUserView, basename='signup')
 router.register('projets', ProjetsView, basename='projets')
 
 projet_router = routers.NestedDefaultRouter(router, 'projets', lookup='projet')
-projet_router.register('user', ContributorsView, basename='user')
+projet_router.register('users', ContributorsView, basename='users')
 
 issues_router = routers.NestedDefaultRouter(router, 'projets', lookup='projet')
 issues_router.register('issues', IssuesView, basename='issues')
