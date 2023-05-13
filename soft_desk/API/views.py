@@ -61,6 +61,7 @@ class ContributorsView(viewsets.ModelViewSet):
     queryset = ContributorsModel.objects.all()
 
     def list(self, request, projet_pk):
+        self.check_object_permissions(request, self.queryset)
         contributors = ContributorsModel.objects.filter(project_id=projet_pk)
         serializer = ContributorsSerializer(contributors, many=True)
         return Response(serializer.data)
@@ -130,12 +131,14 @@ class IssuesView(viewsets.ModelViewSet):
         instance.tag = validated_data.get('tag', instance.tag)
         instance.priority = validated_data.get('priority', instance.priority)
         instance.status = validated_data.get('status', instance.status)
-        if UserModel.objects.filter(username=validated_data.get("assignee_user")):
-            validated_data["assignee_user"] = UserModel.objects.get(username=validated_data.get("assignee_user"))
-            instance.assignee_user = validated_data.get("assignee_user", instance.assignee_user)
-        else:
-            return Response(status=status.HTTP_406_NOT_ACCEPTABLE,
-                            data={validated_data["assignee_user"]: 'Utilisateur non valide'})
+        if validated_data.get("assignee_user") is not None:
+            if UserModel.objects.filter(username=validated_data.get("assignee_user")):
+                print(validated_data.get("assignee_user"), "OOOOOOOOOOOOOOOO")
+                validated_data["assignee_user"] = UserModel.objects.get(username=validated_data.get("assignee_user"))
+                instance.assignee_user = validated_data.get("assignee_user", instance.assignee_user)
+            else:
+                return Response(status=status.HTTP_406_NOT_ACCEPTABLE,
+                                data={validated_data["assignee_user"]: 'Utilisateur non valide'})
 
         instance.save()
 

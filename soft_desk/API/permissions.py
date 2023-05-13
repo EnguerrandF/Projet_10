@@ -18,7 +18,10 @@ class ContributorsPermission(BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:
             if request.method == "GET":
-                return True
+                projet_pk = view.kwargs["projet_pk"]
+                if (ProjetsModel.objects.filter(author_user_id=request.user, id=projet_pk) or
+                        ContributorsModel.objects.filter(user_id=request.user, project_id=projet_pk)):
+                    return True
         else:
             projet_pk = view.kwargs["projet_pk"]
             if request.method == 'DELETE':
