@@ -29,8 +29,8 @@ router = routers.SimpleRouter()
 router.register('signup', CreateUserView, basename='signup')
 router.register('projets', ProjetsView, basename='projets')
 
-projet_router = routers.NestedDefaultRouter(router, 'projets', lookup='projet')
-projet_router.register('users', ContributorsView, basename='users')
+user_router = routers.NestedDefaultRouter(router, 'projets', lookup='projet')
+user_router.register('users', ContributorsView, basename='users')
 
 issues_router = routers.NestedDefaultRouter(router, 'projets', lookup='projet')
 issues_router.register('issues', IssuesView, basename='issues')
@@ -48,3 +48,4 @@ urlpatterns = [
     path('api/', include(issues_router.urls)),
     path('api/', include(comments_router.urls)),
 ]
+/api/projets/1/issues/1/comments/1
